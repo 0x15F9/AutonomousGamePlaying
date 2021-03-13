@@ -19,7 +19,7 @@ MEAN_REWARD_BOUND = 12
 
 GAMMA = 0.99
 BATCH_SIZE = 32
-REPLAY_SIZE = 10000
+REPLAY_SIZE = 25000
 LEARNING_RATE = 1e-4
 SYNC_TARGET_FRAMES = 1000
 REPLAY_START_SIZE = 10000
@@ -105,7 +105,7 @@ def calc_loss(batch, net, tgt_net, device="cpu"):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cuda", default=False, action="store_true", help="Enable cuda")
+    parser.add_argument("--cuda", default=True, action="store_true", help="Enable cuda")
     parser.add_argument("--env", default=DEFAULT_ENV_NAME,
                         help="Name of the environment, default=" + DEFAULT_ENV_NAME)
     parser.add_argument("--reward", type=float, default=MEAN_REWARD_BOUND,
