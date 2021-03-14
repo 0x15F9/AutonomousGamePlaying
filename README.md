@@ -44,6 +44,8 @@ From 02
     env = ScaledFloatFrame(env)
 ```
 
+WRAPPER 2
+
 > 12257: done 354 games, mean reward 0.340, eps 0.88, speed 11.56 f/s max reward 0.333
 
 ```
@@ -59,6 +61,8 @@ From 02
     env = ScaledFloatFrame(env)
 ```
 
+The reward stagnates around 5. This may be related to the fact that in breakout each game offers 5 lives
+
 [ ] Train till score = 8 and save model
 
 [ ] Load model and train till score = 12
@@ -66,6 +70,10 @@ From 02
 04
 ===
 
-From 02, 03
+From 02 -> 03
 
-[ ] Load Pong model and train till score = 12 TODO: which layers to train
+[ ] Load Pong model and train Breakout till score = 12 TODO: which layers to train
+
+From 03 -> 02
+
+[ ] Load Breakout model and train Pong till score = 12 TODO: which layers to train

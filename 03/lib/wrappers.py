@@ -260,8 +260,8 @@ def make_env(env_name):
 
 def make_env_bo_rot(env_name):
     env = gym.make(env_name)
-    env = EpisodicLifeEnv(env)
-    env = ClipRewardEnv(env)
+    # env = EpisodicLifeEnv(env)
+    # env = ClipRewardEnv(env)
     env = NoopResetEnv(env)
     env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
