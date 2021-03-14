@@ -3,6 +3,7 @@ import gym
 import time
 import argparse
 import numpy as np
+import gnwrapper
 
 import torch
 
@@ -17,19 +18,23 @@ FPS = 25
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--model", required=True, help="Model file to load")
+    parser.add_argument("-m", "--model", required=True,
+                        help="Model file to load")
     parser.add_argument("-e", "--env", default=DEFAULT_ENV_NAME,
                         help="Environment name to use, default=" + DEFAULT_ENV_NAME)
-    parser.add_argument("-r", "--record", help="Directory to store video recording")
+    parser.add_argument(
+        "-r", "--record", help="Directory to store video recording")
     parser.add_argument("--no-visualize", default=True, action='store_false', dest='visualize',
                         help="Disable visualization of the game play")
     args = parser.parse_args()
 
     env = wrappers.make_env(args.env)
+    env = gnwrapper.Monitor(env, directory="./", force=True)
     if args.record:
         env = gym.wrappers.Monitor(env, args.record)
     net = dqn_model.DQN(env.observation_space.shape, env.action_space.n)
-    net.load_state_dict(torch.load(args.model, map_location=lambda storage, loc: storage))
+    net.load_state_dict(torch.load(
+        args.model, map_location=lambda storage, loc: storage))
 
     state = env.reset()
     total_reward = 0.0
@@ -53,6 +58,6 @@ if __name__ == "__main__":
                 time.sleep(delta)
     print("Total reward: %.2f" % total_reward)
     print("Action counts:", c)
+    env.display()
     if args.record:
         env.env.close()
-
