@@ -21,7 +21,7 @@ From 01
 
 [x] Train till score = 8 and save model
 
-[ ] Load model and train till score = 12
+[x] Load model and train till score = 12
 
 03
 ===

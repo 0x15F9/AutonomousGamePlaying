@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from lib import wrappers
+from lib  import wrappers
 from lib import dqn_model
 
 import argparse
@@ -14,8 +14,8 @@ import torch.optim as optim
 from tensorboardX import SummaryWriter
 
 
-DEFAULT_ENV_NAME = "PongNoFrameskip-v4"
-MEAN_REWARD_BOUND = 12
+DEFAULT_ENV_NAME = "BreakoutNoFrameskip-v4"
+MEAN_REWARD_BOUND = 8
 
 GAMMA = 0.99
 BATCH_SIZE = 32
@@ -115,7 +115,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     device = torch.device("cuda" if args.cuda else "cpu")
 
-    env = wrappers.make_env(args.env)
+    env = wrappers.make_env_bo_rot(args.env)
 
     net = dqn_model.DQN(env.observation_space.shape, env.action_space.n).to(device)
     tgt_net = dqn_model.DQN(env.observation_space.shape, env.action_space.n).to(device)

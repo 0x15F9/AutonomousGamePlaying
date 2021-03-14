@@ -109,7 +109,51 @@ class BufferWrapper(gym.ObservationWrapper):
         self.buffer[:-1] = self.buffer[1:]
         self.buffer[-1] = observation
         return self.buffer
+    
 
+class EpisodicLifeEnv(gym.Wrapper):
+    def __init__(self, env):
+        """Make end-of-life == end-of-episode, but only reset on true game over.
+        Done by DeepMind for the DQN and co. since it helps value estimation.
+        """
+        gym.Wrapper.__init__(self, env)
+        self.lives = 0
+        self.was_real_done = True
+
+    def step(self, action):
+        obs, reward, done, info = self.env.step(action)
+        self.was_real_done = done
+        # check current lives, make loss of life terminal,
+        # then update lives to handle bonus lives
+        lives = self.env.unwrapped.ale.lives()
+        if lives < self.lives and lives > 0:
+            # for Qbert sometimes we stay in lives == 0 condition for a few frames
+            # so it's important to keep lives > 0, so that we only reset once
+            # the environment advertises done.
+            done = True
+        self.lives = lives
+        return obs, reward, done, info
+
+    def reset(self, **kwargs):
+        """Reset only when lives are exhausted.
+        This way all states are still reachable even though lives are episodic,
+        and the learner need not know about any of this behind-the-scenes.
+        """
+        if self.was_real_done:
+            obs = self.env.reset(**kwargs)
+        else:
+            # no-op step to advance from terminal/lost life state
+            obs, _, _, _ = self.env.step(0)
+        self.lives = self.env.unwrapped.ale.lives()
+        return obs
+
+class ClipRewardEnv(gym.RewardWrapper):
+    def __init__(self, env):
+        gym.RewardWrapper.__init__(self, env)
+
+    def reward(self, reward):
+        """Bin reward to {+1, 0, -1} by its sign."""
+        return np.sign(reward)
 
 class ProcessFrame84Pong(gym.ObservationWrapper):
     def __init__(self, env=None):
@@ -184,21 +228,22 @@ def make_env(env_name):
 
 
 def make_env_bo_rot(env_name):
-    # TODO: add clip reward
-    # TODO: add episodic life
     env = gym.make(env_name)
+    env = EpisodicLifeEnv(env)
+    env = ClipRewardEnv(env)
     env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
     env = ProcessFrame84BreakoutRotate(env)
     env = ImageToPyTorch(env)
     env = BufferWrapper(env, 4)
-    return ScaledFloatFrame(env)
+    env = ScaledFloatFrame(env)
+    return env
 
 if __name__ == '__main__':
     env = gym.make('BreakoutNoFrameskip-v4')
     env = ProcessFrame84BreakoutRotate(env)
     obs = env.reset()
-    for i in range(100):
+    for i in range(10):
         obs, _, _, _ = env.step(env.action_space.sample())
     cv2.imshow("output", cv2.cvtColor(obs, cv2.COLOR_RGB2BGR))
     print(obs.shape)
