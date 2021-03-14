@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from lib  import wrappers
+from lib import wrappers
 from lib import dqn_model
 
 import argparse
@@ -30,7 +30,8 @@ EPSILON_FINAL = 0.02
 
 MODEL = None
 
-Experience = collections.namedtuple('Experience', field_names=['state', 'action', 'reward', 'done', 'new_state'])
+Experience = collections.namedtuple('Experience', field_names=[
+                                    'state', 'action', 'reward', 'done', 'new_state'])
 
 
 class ExperienceBuffer:
@@ -45,9 +46,10 @@ class ExperienceBuffer:
 
     def sample(self, batch_size):
         indices = np.random.choice(len(self.buffer), batch_size, replace=False)
-        states, actions, rewards, dones, next_states = zip(*[self.buffer[idx] for idx in indices])
+        states, actions, rewards, dones, next_states = zip(
+            *[self.buffer[idx] for idx in indices])
         return np.array(states), np.array(actions), np.array(rewards, dtype=np.float32), \
-               np.array(dones, dtype=np.uint8), np.array(next_states)
+            np.array(dones, dtype=np.uint8), np.array(next_states)
 
 
 class Agent:
@@ -95,7 +97,8 @@ def calc_loss(batch, net, tgt_net, device="cpu"):
     rewards_v = torch.tensor(rewards).to(device)
     done_mask = torch.ByteTensor(dones).to(device)
 
-    state_action_values = net(states_v).gather(1, actions_v.unsqueeze(-1)).squeeze(-1)
+    state_action_values = net(states_v).gather(
+        1, actions_v.unsqueeze(-1)).squeeze(-1)
     next_state_values = tgt_net(next_states_v).max(1)[0]
     next_state_values[done_mask] = 0.0
     next_state_values = next_state_values.detach()
@@ -106,7 +109,8 @@ def calc_loss(batch, net, tgt_net, device="cpu"):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cuda", default=torch.cuda.is_available(), action="store_true", help="Enable cuda")
+    parser.add_argument("--cuda", default=torch.cuda.is_available(),
+                        action="store_true", help="Enable cuda")
     parser.add_argument("--env", default=DEFAULT_ENV_NAME,
                         help="Name of the environment, default=" + DEFAULT_ENV_NAME)
     parser.add_argument("--reward", type=float, default=MEAN_REWARD_BOUND,
@@ -117,9 +121,14 @@ if __name__ == "__main__":
 
     env = wrappers.make_env_bo_rot(args.env)
 
-    net = dqn_model.DQN(env.observation_space.shape, env.action_space.n).to(device)
-    tgt_net = dqn_model.DQN(env.observation_space.shape, env.action_space.n).to(device)
+    net = dqn_model.DQN(env.observation_space.shape,
+                        env.action_space.n).to(device)
+    tgt_net = dqn_model.DQN(env.observation_space.shape,
+                            env.action_space.n).to(device)
     writer = SummaryWriter(comment="-" + args.env)
+    
+    print('loaded', args.model)
+    print('gpu',args.cuda)
     print(net)
 
     buffer = ExperienceBuffer(REPLAY_SIZE)
@@ -132,18 +141,20 @@ if __name__ == "__main__":
     ts_frame = 0
     ts = time.time()
     best_mean_reward = None
-    
+
     # load
     load_str = "-loaded" if args.model else ""
     if args.model:
-        checkpoint = torch.load(args.model, map_location=lambda storage, loc: storage)
+        checkpoint = torch.load(
+            args.model, map_location=lambda storage, loc: storage)
         net.load_state_dict(checkpoint['net_state_dict'])
-        optimizer.load_state_dict(DEFAULT_ENV_NAME + "-" + str(MEAN_REWARD_BOUND) + "-" + "loaded" if args.model else "", checkpoint['optimizer_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         net.train()
 
     while True:
         frame_idx += 1
-        epsilon = max(EPSILON_FINAL, EPSILON_START - frame_idx / EPSILON_DECAY_LAST_FRAME)
+        epsilon = max(EPSILON_FINAL, EPSILON_START -
+                      frame_idx / EPSILON_DECAY_LAST_FRAME)
 
         reward = agent.play_step(net, epsilon, device=device)
         if reward is not None:
@@ -166,7 +177,8 @@ if __name__ == "__main__":
                     'optimizer_state_dict': optimizer.state_dict()
                 }, args.env + load_str + "-best.dat")
                 if best_mean_reward is not None:
-                    print("Best mean reward updated %.3f -> %.3f, model saved" % (best_mean_reward, mean_reward))
+                    print("Best mean reward updated %.3f -> %.3f, model saved" %
+                          (best_mean_reward, mean_reward))
                 best_mean_reward = mean_reward
             if mean_reward > args.reward:
                 print("Solved in %d frames!" % frame_idx)

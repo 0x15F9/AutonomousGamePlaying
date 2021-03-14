@@ -30,21 +30,7 @@ From 02
 
 [ ] Apply Custom Breakout processing to Rotate (Breakout must be rotated by 90cw)
 
-> 12548: done 474 games, mean reward 0.090, eps 0.87, speed 9.45 f/s max reward 0.3
-
-```
-    env = gym.make(env_name)
-    env = EpisodicLifeEnv(env)
-    env = ClipRewardEnv(env)
-    env = MaxAndSkipEnv(env)
-    env = FireResetEnv(env)
-    env = ProcessFrame84BreakoutRotate(env)
-    env = ImageToPyTorch(env)
-    env = BufferWrapper(env, 4)
-    env = ScaledFloatFrame(env)
-```
-
-WRAPPER 2
+WRAPPER 1
 
 > 12257: done 354 games, mean reward 0.340, eps 0.88, speed 11.56 f/s max reward 0.333
 
@@ -62,6 +48,21 @@ WRAPPER 2
 ```
 
 The reward stagnates around 5. This may be related to the fact that in breakout each game offers 5 lives
+
+WRAPPER 2
+
+> 12548: done 474 games, mean reward 0.090, eps 0.87, speed 9.45 f/s max reward 0.3
+
+```
+    env = gym.make(env_name)
+    env = NoopResetEnv(env)
+    env = MaxAndSkipEnv(env)
+    env = FireResetEnv(env)
+    env = ProcessFrame84BreakoutRotate(env)
+    env = ImageToPyTorch(env)
+    env = BufferWrapper(env, 4)
+    env = ScaledFloatFrame(env)
+```
 
 [ ] Train till score = 8 and save model
 
