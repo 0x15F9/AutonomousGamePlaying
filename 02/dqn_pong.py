@@ -138,7 +138,7 @@ if __name__ == "__main__":
     if args.model:
         checkpoint = torch.load(args.model, map_location=lambda storage, loc: storage)
         net.load_state_dict(checkpoint['net_state_dict'])
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        optimizer.load_state_dict(DEFAULT_ENV_NAME + "-" + str(MEAN_REWARD_BOUND) + "-" + "loaded" if args.model else "", checkpoint['optimizer_state_dict'])
         net.train()
 
     while True:
