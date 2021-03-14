@@ -64,9 +64,17 @@ WRAPPER 2
     env = ScaledFloatFrame(env)
 ```
 
-[ ] Train till score = 8 and save model
+RewardClipping is not required since no action yield rewards more than one unit
 
-[ ] Load model and train till score = 12
+[x] Train till score = 12
+
+[x] Train till score = 8 and save model
+
+[x] Load model and train till score = 12
+
+Loading Breakout models and retraining does not work quite well
+
+[ ] Play using model and watch video to understand problem
 
 04
 ===
