@@ -15,7 +15,7 @@ from tensorboardX import SummaryWriter
 
 
 DEFAULT_ENV_NAME = "BreakoutNoFrameskip-v4"
-MEAN_REWARD_BOUND = 8
+MEAN_REWARD_BOUND = 12
 
 GAMMA = 0.99
 BATCH_SIZE = 32

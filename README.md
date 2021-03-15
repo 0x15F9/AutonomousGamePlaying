@@ -72,6 +72,19 @@ in the failed training, there is not proper use of firetorestart. The agent keep
 this can be explained as follows:
 The training is being resumed with weights adjusted for the last life. However, after the last life there is no need to press fire
 
+WRAPPER 3
+
+```
+    env = EpisodicLifeEnv(env)
+    env = NoopResetEnv(env)
+    env = FireResetEnv(env)
+    env = MaxAndSkipEnv(env)
+    env = ProcessFrame84BreakoutRotate(env)
+    env = ImageToPyTorch(env)
+    env = BufferWrapper(env, 4)
+    env = ScaledFloatFrame(env)
+```
+
 To allow human to play game, run the following:
 
 ```python
