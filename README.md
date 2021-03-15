@@ -74,15 +74,21 @@ RewardClipping is not required since no action yield rewards more than one unit
 
 Loading Breakout models and retraining does not work quite well
 
-[ ] Play using model and watch video to understand problem
+[ ] Play using model and watch video to understand problem + also watch obs
 
 04
 ===
 
-From 02 -> 03
+[ ] Read report to understand which layers should be retrained
 
-[ ] Load Pong model and train Breakout till score = 12 TODO: which layers to train
-
+[ ] Read past implementations to understand how retraining is done
+ 
 From 03 -> 02
 
 [ ] Load Breakout model and train Pong till score = 12 TODO: which layers to train
+
+04.1
+---
+
+[ ] Load BreakoutRot and Play Pong
+
