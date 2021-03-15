@@ -28,7 +28,7 @@ if __name__ == "__main__":
                         help="Disable visualization of the game play")
     args = parser.parse_args()
 
-    env = wrappers.make_env(args.env)
+    env = wrappers.make_env_bo_rot(args.env)
     env = gnwrapper.Monitor(env, directory="./", force=True)
     if args.record:
         env = gym.wrappers.Monitor(env, args.record)
