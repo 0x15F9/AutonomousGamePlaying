@@ -263,7 +263,7 @@ def make_env_bo_rot(env_name):
     env = EpisodicLifeEnv(env)
     env = NoopResetEnv(env)
     env = FireResetEnv(env)
-    env = MaxAndSkipEnv(env, skip=2)
+    env = MaxAndSkipEnv(env, stack=4)
     env = ProcessFrame84BreakoutRotate(env)
     env = ImageToPyTorch(env)
     env = BufferWrapper(env, 4)
