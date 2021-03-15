@@ -27,11 +27,11 @@ class FireResetEnv(gym.Wrapper):
 
 
 class MaxAndSkipEnv(gym.Wrapper):
-    def __init__(self, env=None, skip=4):
+    def __init__(self, env=None, skip=4, stack=2):
         """Return only every `skip`-th frame"""
         super(MaxAndSkipEnv, self).__init__(env)
         # most recent raw observations (for max pooling across time steps)
-        self._obs_buffer = collections.deque(maxlen=2)
+        self._obs_buffer = collections.deque(maxlen=stack)
         self._skip = skip
 
     def step(self, action):
@@ -260,11 +260,10 @@ def make_env(env_name):
 
 def make_env_bo_rot(env_name):
     env = gym.make(env_name)
-    # env = EpisodicLifeEnv(env)
-    # env = ClipRewardEnv(env)
+    env = EpisodicLifeEnv(env)
     env = NoopResetEnv(env)
-    env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
+    env = MaxAndSkipEnv(env, skip=2)
     env = ProcessFrame84BreakoutRotate(env)
     env = ImageToPyTorch(env)
     env = BufferWrapper(env, 4)

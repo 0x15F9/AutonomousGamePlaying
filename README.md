@@ -29,8 +29,6 @@ From 02
 
 WRAPPER 1
 
-> 12257: done 354 games, mean reward 0.340, eps 0.88, speed 11.56 f/s max reward 0.333
-
 ```
     env = gym.make(env_name)
     env = EpisodicLifeEnv(env)
@@ -48,8 +46,6 @@ The reward stagnates around 5. This may be related to the fact that in breakout 
 
 WRAPPER 2
 
-> 12548: done 474 games, mean reward 0.090, eps 0.87, speed 9.45 f/s max reward 0.3
-
 ```
     env = gym.make(env_name)
     env = NoopResetEnv(env)
@@ -61,7 +57,8 @@ WRAPPER 2
     env = ScaledFloatFrame(env)
 ```
 
-RewardClipping is not required since no action yield rewards more than one unit
+* RewardClipping is not required since no action yield rewards more than one unit
+* The agent is not making proper use of lives (epsidodic life is needed). The failure with wrapper one may indicate that the ordering of wrapper is important
 
 - [x] Train till score = 12
 - [x] Train till score = 8 and save model
@@ -71,12 +68,9 @@ Loading Breakout models and retraining does not work quite well
 
 - [x] Play using model and watch video to understand problem + also watch obs
 
-in the sucessful training, agent is not making proper use of lives (epsidodic life is needed)
-
 in the failed training, there is not proper use of firetorestart. The agent keeps moving left and right, without pressing fire to start the game with next life.
 this can be explained as follows:
 The training is being resumed with weights adjusted for the last life. However, after the last life there is no need to press fire
-It seems that wrapper 1 would have been better, perhaps the ordering of wrappers was not correct
 
 To allow human to play game, run the following:
 
@@ -102,3 +96,8 @@ From 03 -> 02
 
 - [ ] Load BreakoutRot and Play Pong
 
+
+NEXT
+===
+
+> before pong tl breakout, ensure pong has 4 actions only
