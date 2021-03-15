@@ -66,7 +66,7 @@ class Agent:
         done_reward = None
 
         if np.random.random() < epsilon:
-            action = env.action_space.sample()
+            action = np.random.randint(0,4)  # Limit to 4
         else:
             state_a = np.array([self.state], copy=False)
             state_v = torch.tensor(state_a).to(device)
@@ -121,10 +121,11 @@ if __name__ == "__main__":
 
     env = wrappers.make_env_bo_rot(args.env)
 
-    net = dqn_model.DQN(env.observation_space.shape,
-                        env.action_space.n).to(device)
-    tgt_net = dqn_model.DQN(env.observation_space.shape,
-                            env.action_space.n).to(device)
+    # fix action space to 4 to make compatible with breakout
+    action_space = 4
+
+    net = dqn_model.DQN(env.observation_space.shape, action_space).to(device)
+    tgt_net = dqn_model.DQN(env.observation_space.shape, action_space).to(device)
     writer = SummaryWriter(comment="-" + args.env)
     
     print('loaded', args.model)
