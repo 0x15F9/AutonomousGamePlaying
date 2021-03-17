@@ -138,8 +138,8 @@ Note: Pong model must contain only for actions for models to be compatible
 05
 ===
 
-- [ ] Implement PongRot
-- [ ] Traing PongRot AS 4 tilll 12
+- [x] Implement PongRot
+- [ ] Train PongRot AS 4 till 12
 
 05.1
 ---

@@ -30,8 +30,7 @@ EPSILON_FINAL = 0.02
 
 MODEL = None
 
-Experience = collections.namedtuple('Experience', field_names=[
-                                    'state', 'action', 'reward', 'done', 'new_state'])
+Experience = collections.namedtuple('Experience', field_names=['state', 'action', 'reward', 'done', 'new_state'])
 
 
 class ExperienceBuffer:
@@ -46,8 +45,7 @@ class ExperienceBuffer:
 
     def sample(self, batch_size):
         indices = np.random.choice(len(self.buffer), batch_size, replace=False)
-        states, actions, rewards, dones, next_states = zip(
-            *[self.buffer[idx] for idx in indices])
+        states, actions, rewards, dones, next_states = zip(*[self.buffer[idx] for idx in indices])
         return np.array(states), np.array(actions), np.array(rewards, dtype=np.float32), \
             np.array(dones, dtype=np.uint8), np.array(next_states)
 
@@ -119,7 +117,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     device = torch.device("cuda" if args.cuda else "cpu")
 
-    env = wrappers.make_env_bo_rot(args.env)
+    env = wrappers.make_env_po_rot(args.env)
 
     # fix action space to 4 to make compatible with breakout
     action_space = 4
