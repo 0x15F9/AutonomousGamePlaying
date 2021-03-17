@@ -1,3 +1,15 @@
+
+To allow human to play game, run the following:
+
+```python
+import gym
+from gym.utils import play
+env = gym.make('Breakout-v0')
+gym.utils.play.play(env, zoom=3)
+```
+
+---
+
 00
 ===
 
@@ -85,14 +97,23 @@ WRAPPER 3
     env = ScaledFloatFrame(env)
 ```
 
-To allow human to play game, run the following:
+The above wrapper also fails.
 
-```python
-import gym
-from gym.utils import play
-env = gym.make('Breakout-v0')
-gym.utils.play.play(env, zoom=3)
+WRAPPER 4
+
 ```
+    env = gym.make(env_name)
+    env = EpisodicLifeEnv(env)
+    env = MaxAndSkipEnv(env)
+    env = FireResetEnv(env)
+    env = ProcessFrame84Rot(env)
+    env = ImageToPyTorch(env)
+    env = BufferWrapper(env, 4)
+    env = ScaledFloatFrame(env)
+    return env
+```
+
+This wrapper was used in one of my previous attempts. It yielded positive results. Its effectiveness in TL is yet to be determined.
 
 04
 ===
@@ -100,17 +121,36 @@ gym.utils.play.play(env, zoom=3)
 - [ ] Read report to understand which layers should be retrained
 - [ ] Read past implementations to understand how retraining is done
  
-From 03 -> 02
-
-- [ ] Load Breakout model and train Pong till score = 12 TODO: which layers to train
-
 04.1
 ---
 
-- [ ] Load BreakoutRot and Play Pong
+From 03 -> 02
 
+- [x] Load Breakout model and train Pong till score = 12 (using only previous weights)
 
-NEXT
+04.2
+---
+
+- [ ] Load Pong 8 and Play BreakoutRot till 12
+
+Note: Pong model must contain only for actions for models to be compatible
+
+05
 ===
 
-> before pong tl breakout, ensure pong has 4 actions only
+- [ ] Implement PongRot
+- [ ] Traing PongRot AS 4 tilll 12
+
+05.1
+---
+
+- [ ] PongRotAS4S12 -> Breakout
+
+```
+Note: Naming convention: <ENV_NAME><PreProc><ActionSpace><Score>
+```
+
+05.2
+---
+
+- [ ] Breakout8 -> PongRotAS4

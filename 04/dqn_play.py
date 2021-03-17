@@ -30,8 +30,6 @@ if __name__ == "__main__":
 
     env = wrappers.make_env(args.env)
     env = gnwrapper.Monitor(env, directory="./", force=True)
-    if args.record:
-        env = gym.wrappers.Monitor(env, args.record)
     net = dqn_model.DQN(env.observation_space.shape, env.action_space.n)
     net.load_state_dict(torch.load(
         args.model, map_location=lambda storage, loc: storage))
@@ -58,6 +56,5 @@ if __name__ == "__main__":
                 time.sleep(delta)
     print("Total reward: %.2f" % total_reward)
     print("Action counts:", c)
-    env.display()
-    if args.record:
-        env.env.close()
+    
+    env.env.close()
