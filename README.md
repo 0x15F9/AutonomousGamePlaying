@@ -139,12 +139,12 @@ Note: Pong model must contain only for actions for models to be compatible
 ===
 
 - [x] Implement PongRot
-- [ ] Train PongRot AS 4 till 12
+- [x] Train PongRot AS 4 till 12
 
 05.1
 ---
 
-- [ ] PongRotAS4S12 -> Breakout
+- [ ] PongRotAS4S12 -> Breakout12
 
 ```
 Note: Naming convention: <ENV_NAME><PreProc><ActionSpace><Score>
