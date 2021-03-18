@@ -106,7 +106,7 @@ WRAPPER 4
     env = EpisodicLifeEnv(env)
     env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
-    env = ProcessFrame84BreakoutRotate(env)
+    env = ProcessFrame84Breakout(env)
     env = ImageToPyTorch(env)
     env = BufferWrapper(env, 4)
     env = ScaledFloatFrame(env)

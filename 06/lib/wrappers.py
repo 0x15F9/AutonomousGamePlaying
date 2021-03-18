@@ -317,12 +317,14 @@ def make_env_po(env_name):
 
 def make_env_bo(env_name):
     env = gym.make(env_name)
+    env = EpisodicLifeEnv(env)
     env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
     env = ProcessFrame84Breakout(env)
     env = ImageToPyTorch(env)
     env = BufferWrapper(env, 4)
-    return ScaledFloatFrame(env)
+    env = ScaledFloatFrame(env)
+    return env
 
 def make_env_po_rot(env_name):
     env = gym.make(env_name)
