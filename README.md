@@ -154,3 +154,5 @@ Note: Naming convention: <ENV_NAME><PreProc><ActionSpace><Score>
 ---
 
 - [ ] Breakout8 -> PongRotAS4
+
+Everything involving playing Breakout fails. Need to investigate the root cause

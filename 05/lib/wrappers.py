@@ -216,6 +216,37 @@ class ProcessFrame84Pong(gym.ObservationWrapper):
         return frame
 
 
+class ProcessFrame84Breakout(gym.ObservationWrapper):
+    def __init__(self, env=None):
+        super(ProcessFrame84Breakout, self).__init__(env)
+        self.observation_space = gym.spaces.Box(
+            low=0, high=255, shape=(84, 84, 1), dtype=np.uint8)
+
+    def observation(self, obs):
+        return ProcessFrame84Breakout.process(obs)
+
+    @staticmethod
+    def process(frame):
+        if frame.size == 210 * 160 * 3:
+            img = np.reshape(frame, [210, 160, 3]).astype(np.float32)
+        elif frame.size == 250 * 160 * 3:
+            img = np.reshape(frame, [250, 160, 3]).astype(np.float32)
+        else:
+            assert False, "Unknown resolution."
+        # grayscale
+        img = img[:, :, 0] * 0.299 + img[:, :, 1] * 0.587 + img[:, :, 2] * 0.114
+        # crop
+        img = img[34:, 8:152]
+        # resize
+        img = cv2.resize(img, (84, 84), interpolation=cv2.INTER_AREA)
+        # Add 3rd channel
+        img = np.reshape(img, [84, 84, 1])
+        return img.astype(np.uint8)
+
+        return frame
+
+
+
 class ProcessFrame84PongRotate(gym.ObservationWrapper):
     def __init__(self, env=None):
         super(ProcessFrame84PongRotate, self).__init__(env)
@@ -279,7 +310,7 @@ class ProcessFrame84BreakoutRotate(gym.ObservationWrapper):
 
         return frame
 
-def make_env(env_name):
+def make_env_po(env_name):
     env = gym.make(env_name)
     env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
@@ -289,6 +320,16 @@ def make_env(env_name):
     env = BufferWrapper(env, 4)
     return ScaledFloatFrame(env)
 
+
+def make_env_bo(env_name):
+    env = gym.make(env_name)
+    env = MaxAndSkipEnv(env)
+    env = FireResetEnv(env)
+    # env = ProcessFrame84(env)
+    env = ProcessFrame84Breakout(env)
+    env = ImageToPyTorch(env)
+    env = BufferWrapper(env, 4)
+    return ScaledFloatFrame(env)
 
 def make_env_po_rot(env_name):
     env = gym.make(env_name)
@@ -313,15 +354,15 @@ def make_env_bo_rot(env_name):
     return env
 
 if __name__ == '__main__':
-    env = gym.make('PongNoFrameskip-v4')
-    env = ProcessFrame84PongRotate(env)
+    env = gym.make('BreakoutNoFrameskip-v4')
+    env = ProcessFrame84Breakout(env)
     obs = env.reset()
     for i in range(100):
         obs, _, _, _ = env.step(env.action_space.sample())
     cv2.imshow("output", cv2.cvtColor(obs, cv2.COLOR_RGB2BGR))
     print(obs.shape)
     
-    # f = ProcessFrame84PongRotate.process(obs)
+    # f = ProcessFrame84Breakout.process(obs)
     # cv2.imshow("output", cv2.cvtColor(f, cv2.COLOR_RGB2BGR))
     # print(f.shape)
     
