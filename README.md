@@ -106,7 +106,7 @@ WRAPPER 4
     env = EpisodicLifeEnv(env)
     env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
-    env = ProcessFrame84Rot(env)
+    env = ProcessFrame84BreakoutRotate(env)
     env = ImageToPyTorch(env)
     env = BufferWrapper(env, 4)
     env = ScaledFloatFrame(env)
@@ -153,6 +153,15 @@ Note: Naming convention: <ENV_NAME><PreProc><ActionSpace><Score>
 05.2
 ---
 
+- [ ] Train Breakout 8
 - [ ] Breakout8 -> PongRotAS4
 
 Everything involving playing Breakout fails. Need to investigate the root cause
+
+06
+===
+
+Begin Fix Breakout
+
+- [ ] Train Breakout till 8 using WRAPPER 4
+- [ ] Visualise
