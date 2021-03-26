@@ -123,7 +123,10 @@ if __name__ == "__main__":
         wr="WrPoRot"
     elif args.wrapper == 4:  # Breakout Rotated
         env = wrappers.make_env_bo_rot(args.env)
-        wr="WrBoRot"
+        wr = "WrBoRot"
+    elif args.wrapper == 5:  # Squash
+        env = wrappers.make_env_sq(args.env)
+        wr = "WrSq"
 
     # fix action space to 4 to make compatible with breakout
     action_space = 4
