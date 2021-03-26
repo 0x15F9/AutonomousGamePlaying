@@ -161,7 +161,34 @@ Everything involving playing Breakout fails. Need to investigate the root cause
 06
 ===
 
+```
+    env = gym.make(env_name)
+    env = MaxAndSkipEnv(env)
+    env = FireResetEnv(env)
+    env = EpisodicLifeEnv(env)
+    env = ProcessFrame84Breakout(env)
+    env = ImageToPyTorch(env)
+    env = BufferWrapper(env, 4)
+    env = ScaledFloatFrame(env)
+    return env
+```
+
 Begin Fix Breakout
 
-- [ ] Train Breakout till 8 using WRAPPER 4
-- [ ] Visualise
+- [x] Train Breakout till 8 using WRAPPER 4
+- [x] Visualise
+
+- [x] Load Breakout 8 and train till 12 using WRAPPER 4
+- [x] Visualise
+
+Like the previous attempts, this one also failed.
+For future attempts at playing breakout, episodic life will be ommited since 
+- It is believed to be causing the score to stagnate at 5
+- It influences the starting observation for lives 2..5
+
+07
+===
+
+- [ ] Set up training for Squash
+- [ ] Train squash till 12
+- [ ] Load model from <> and train squash till 12
