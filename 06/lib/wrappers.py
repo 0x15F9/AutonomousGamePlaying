@@ -317,7 +317,7 @@ def make_env_po(env_name):
 
 def make_env_bo(env_name):
     env = gym.make(env_name)
-    env = EpisodicLifeEnv(env)
+    # env = EpisodicLifeEnv(env)
     env = MaxAndSkipEnv(env)
     env = FireResetEnv(env)
     env = ProcessFrame84Breakout(env)
@@ -350,7 +350,7 @@ if __name__ == '__main__':
     env = gym.make('BreakoutNoFrameskip-v4')
     env = ProcessFrame84Breakout(env)
     obs = env.reset()
-    for i in range(100):
+    for i in range(10):
         obs, _, _, _ = env.step(env.action_space.sample())
     cv2.imshow("output", cv2.cvtColor(obs, cv2.COLOR_RGB2BGR))
     print(obs.shape)

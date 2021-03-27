@@ -12,7 +12,6 @@ from lib import dqn_model
 
 import collections
 
-DEFAULT_ENV_NAME = "PongNoFrameskip-v4"
 FPS = 25
 
 
@@ -20,7 +19,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--cuda", default=torch.cuda.is_available(), action="store_true", help="Enable cuda")
     parser.add_argument("-e", "--env", required=True, help="Name of the environment")
-    parser.add_argument("-r", "--reward", type=float, required=True, help="Mean reward boundary for stop of training")
     parser.add_argument("-m", "--model", required=True, help="Model file to load")
     parser.add_argument("-w", "--wrapper", required=True, type=int, help="Wrapper to use")
     args = parser.parse_args()
@@ -34,6 +32,8 @@ if __name__ == "__main__":
         env = wrappers.make_env_po_rot(args.env)
     elif args.wrapper == 4:  # Breakout Rotated
         env = wrappers.make_env_bo_rot(args.env)
+    elif args.wrapper == 5:  # Squash
+        env = wrappers.make_env_sq(args.env)
     env = gnwrapper.Monitor(env, directory="./", force=True)
 
     # fix action space to 4 to make compatible with breakout
