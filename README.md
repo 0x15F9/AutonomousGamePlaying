@@ -4,7 +4,7 @@ To allow human to play game, run the following:
 ```python
 import gym
 from gym.utils import play
-env = gym.make('Breakout-v0')
+env = gym.make('BreakoutNoFrameskip-v4')
 gym.utils.play.play(env, zoom=3)
 ```
 
@@ -189,6 +189,15 @@ For future attempts at playing breakout, episodic life will be ommited since
 07
 ===
 
-- [ ] Set up training for Squash
-- [ ] Train squash till 12
-- [ ] Load model from <> and train squash till 12
+- [x] Set up training for Squash
+- [x] Train squash till 5
+- [x] Train squash till 12
+
+At some point the score dips. This may be attributed to the fact that the ball changes course randomly upon collision with the top wall and paddle. Consequently, the overall score if poor if the game ends a short time after it starts as certain (random) motion may not be catered for. 
+the agent either performs very well or very poorly
+Change in motion should be predictable
+
+- [x] train squash 5
+- [x] Use Squash5 to train till 12
+- [ ] Load PongRot<> and train squash till 12
+- [ ] Load Breakout<> and train squash till 12
