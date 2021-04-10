@@ -199,5 +199,5 @@ Change in motion should be predictable
 
 - [x] train squash 5
 - [x] Use Squash5 to train till 12
-- [ ] Load PongRot<> and train squash till 12
-- [ ] Load Breakout<> and train squash till 12
+- [x] Load PongRot12 ad train squash till 12
+- [x] Load Breakout8 and train squash till 12
