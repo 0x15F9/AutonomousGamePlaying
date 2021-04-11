@@ -201,3 +201,27 @@ Change in motion should be predictable
 - [x] Use Squash5 to train till 12
 - [x] Load PongRot12 ad train squash till 12
 - [x] Load Breakout8 and train squash till 12
+
+08
+===
+
+- [x] Pong Rot 12 using Squash 12
+- [x] SquashRot 12
+- [x] Pong 12 using Squash Rot 12
+
+------- AT this point I noticed a mistake in squash env -----
+
+09
+===
+
+- [ ] Squash 12
+- [ ] Squash 12 using Breakout <>
+- [ ] Squash 12 using PongRot <>
+- [ ] Squash 5
+- [ ] Squash 12 using Squash 5
+
+10
+===
+
+- [ ] Pong 12 using SquashRot 12
+- [ ] Breakout 12 using Squash 12
