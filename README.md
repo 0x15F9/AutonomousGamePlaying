@@ -215,7 +215,7 @@ Change in motion should be predictable
 ===
 
 - [x] Squash 12
-- [ ] Squash 12 using Breakout <>
+- [ ] Squash 12 using Breakout 12
 - [x] Squash 12 using PongRot 12
 - [x] Squash 5
 - [x] Squash 12 using Squash 5
@@ -223,6 +223,12 @@ Change in motion should be predictable
 10
 ===
 
-- [ ] Squash Rot 12
+- [x] Squash Rot 12
 - [ ] Pong 12 using SquashRot 12
 - [ ] Breakout 12 using Squash 12
+
+11
+===
+
+- [x] Breakout 12 (updated wrapper)
+- [ ] Breakout 12 using PongRot 12
