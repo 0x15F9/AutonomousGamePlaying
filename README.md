@@ -239,3 +239,13 @@ Post Training fixes
 ---
 
 1. Analyze pong and breakout source codes and update squash accordingly
+
+12
+---
+- [x] new squash 12
+- [x] breakout 12 using new squash 12
+- [x] pong rot 12 using new squash 12
+- [x] new squash rot 12
+- [x] pong 12 using new squash rot 12 x1
+- [x] pong 12 using new squash rot 12 x2
+- [ ] pong 12
